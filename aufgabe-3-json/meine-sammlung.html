@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Sammlung</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #suche {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        #liste {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .karte {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            width: 220px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .karte h3 {
+            margin-top: 0;
+        }
+
+        #rohdaten {
+            background: white;
+            padding: 15px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Meine Spielesammlung</h1>
+
+    <input id="suche" type="text" placeholder="Suchen ...">
+
+    <div id="liste"></div>
+
+    <pre id="rohdaten"></pre>
+
+    <script>
+        const daten = [
+            {
+                titel: "Minecraft",
+                kategorie: "Sandbox",
+                bewertung: 9
+            },
+            {
+                titel: "Fortnite",
+                kategorie: "Battle Royale",
+                bewertung: 8
+            },
+            {
+                titel: "Celeste",
+                kategorie: "Platformer",
+                bewertung: 10
+            },
+            {
+                titel: "Rocket League",
+                kategorie: "Sport",
+                bewertung: 8
+            },
+            {
+                titel: "Valorant",
+                kategorie: "Shooter",
+                bewertung: 9
+            }
+        ];
+
+        function zeigeListe(eintraege) {
+            const liste = document.getElementById("liste");
+
+            liste.innerHTML = eintraege.map(spiel => `
+                <div class="karte">
+                    <h3>${spiel.titel}</h3>
+                    <p><strong>Kategorie:</strong> ${spiel.kategorie}</p>
+                    <p><strong>Bewertung:</strong> ${spiel.bewertung}/10</p>
+                </div>
+            `).join("");
+        }
+
+        zeigeListe(daten);
+
+        document.getElementById("suche").addEventListener("input", function() {
+            const suchtext = this.value.toLowerCase();
+
+            const gefiltert = daten.filter(e =>
+                e.titel.toLowerCase().includes(suchtext)
+            );
+
+            zeigeListe(gefiltert);
+        });
+
+        document.getElementById("rohdaten").textContent =
+            JSON.stringify(daten, null, 2);
+    </script>
+
+</body>
+</html>
